@@ -9,31 +9,25 @@
 </head>
 
 <body>
-
-    <!--
-  This example requires updating your template:
-
-  ```
-  <html class="h-full bg-gray-100">
-  <body class="h-full">
-  ```
--->
     <div class="min-h-full">
         <nav class="bg-gray-800">
             <div class="mx-auto max-w-7xl lg:px-8 px-4 sm:px-6 ">
                 <div class="flex h-16 items-center justify-between">
                     <div class="flex items-center">
                         <div class="shrink-0">
-                            <img class="h-10"
-                                src="https://soendergaard.com/wp-content/uploads/2024/06/logoipsum-logo-29-1.png"
-                                alt="Your Company">
+                            <a href="/">
+                                <img class="h-10"
+                                    src="https://soendergaard.com/wp-content/uploads/2024/06/logoipsum-logo-29-1.png"
+                                    alt="Your Company">
+                            </a>
                         </div>
                         <div class="hidden md:block">
                             <div class="ml-10  items-baseline flex space-x-4">
                                 <x-nav-link href="/">Home</x-nav-link>
+                                <x-nav-link href="/jobs">Jobs</x-nav-link>
+                                <x-nav-link href="/blog">Blog</x-nav-link>
                                 <x-nav-link href="/about">About US</x-nav-link>
                                 <x-nav-link href="/contact">Contact</x-nav-link>
-                                <x-nav-link href="/jobs">Jobs</x-nav-link>
                             </div>
                         </div>
                     </div>
