@@ -8,100 +8,78 @@ use Illuminate\Http\Request;
 
 class TagController extends Controller
 {
-    function show($slug)
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
     {
-        $tag = Tag::where('slug', $slug)->firstOrFail();
-        $posts = $tag->posts()->latest()->get();
-
-        return view('post.showByTag', [
-            'pageTitle' => $tag->name,
-            'posts' => $posts,
-            'tag' => $tag
+        $data = Tag::withCount('posts')->get();
+        return view("tag.index", [
+            'pageTitle' => 'Tags',
+            'tags' => $data,
         ]);
     }
-    function create()
-    {
-        $tags = [
-            "Technology",
-            "Programming",
-            "Quran",
-            "Islam",
-            "Design",
-            "Art",
-            "Education",
-            "Startup",
-            "Health",
-            "Fitness",
-            "Productivity",
-            "Mindset",
-            "Motivation",
-            "Spirituality",
-            "Family",
-            "Culture",
-            "History",
-            "Politics",
-            "Business",
-            "Marketing",
-            "Ecommerce",
-            "Laravel",
-            "React",
-            "WordPress",
-            "UX",
-            "UI",
-            "Leadership",
-            "Time Management",
-            "Finance",
-            "Arabic Language",
-            "Poetry",
-            "Books",
-            "Learning",
-            "Self-Development",
-            "Freelancing",
-            "Remote Work",
-            "AI",
-            "Machine Learning",
-            "Cybersecurity",
-            "Data Science",
-            "Photography",
-            "Travel",
-            "Writing",
-            "Creativity",
-            "Philosophy",
-            "Parenting",
-            "Mental Health",
-            "Relationships",
-            "Community",
-            "Volunteering"
-        ];
-        $randomTag = array_rand($tags); // Generate a random tag
 
-        function generateSlugs($array)
-        {
-            $slugs = [];
-            foreach ($array as $item) {
-                $slug = strtolower($item);
-                $slug = preg_replace('/[^a-z0-9\s-]/', '', $slug);  // إزالة الرموز
-                $slug = preg_replace('/\s+/', '-', $slug);          // الفراغ => -
-                $slug = preg_replace('/-+/', '-', $slug);           // إزالة التكرار
-                $slugs[] = trim($slug, '-');                        // إزالة الواصلة من البداية والنهاية
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        return view("tag.create", [
+            'pageTitle' => 'Create Tag'
+        ]);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
+    {
+        // Todo:
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(string $id)
+    {
+        $posts = Post::whereHas(
+            'tags',
+            function ($query) use ($id) {
+                $query->where('slug', $id);
             }
-            return $slugs;
-        }
-        Tag::create([
-            'name' => $tags[$randomTag],
-            'slug' => generateSlugs([$tags[$randomTag]])[0],
+        )->get();
+        return view("tag.show", [
+            'tag' => Tag::where('slug', $id)->firstOrFail(),
+            'pageTitle' => 'Show Tag',
+            'posts' => $posts,
         ]);
-        return redirect('/blog');
     }
 
-    function manyToMany()
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(string $id)
     {
-        $post = Post::find(Post::inRandomOrder()->first()->id); // Assuming you want to attach tags to the post with ID 1
-        $tag = Tag::find(Tag::inRandomOrder()->first()->id); // Fetch random tags
-
-        $post->tags()->attach($tag->id);
-
-        return redirect('/blog');
+        return view("tag.edit", [
+            'tag' => Tag::where('slug', $id)->firstOrFail(),
+            'pageTitle' => 'Edit Tag'
+        ]);
     }
 
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, string $id)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(string $id)
+    {
+        //
+    }
 }

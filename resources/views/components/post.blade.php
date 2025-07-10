@@ -4,9 +4,9 @@
         <img src="{{ asset('images/image-' . $post->id) }}.jpg" alt="{{ $post->title . $post->id }}"
             class="object-cover w-full h-70 rounded-t-md">
     </a>
-    <div class="flex flex-wrap self-start gap-1 mx-2 mt-2 align-top tags">
+    <div class="flex w-full flex-wrap self-start gap-1 mx-2 mt-2 align-top tags">
         @foreach ($post->tags as $tag)
-            <a href="/blog/tag/{{ $tag->slug }}"
+            <a href="{{  route('tag.show', $tag->slug) }}"
                 class="self-start inline-block px-3 py-1 text-sm font-semibold text-gray-700 bg-gray-200 rounded-full">{{ $tag->name }}</a>
         @endforeach
     </div>
